@@ -7,14 +7,16 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 from sqlmodel import SQLModel
 
 from alembic import context
-from app.database import AdminTable
 from app.database import BlogTable
+from app.database import ImageTable
 from app.database import SettingTable
+from app.database import WriterTable
 from app.settings import Settings
 
 all_tables = [
-    AdminTable,
+    WriterTable,
     BlogTable,
+    ImageTable,
     SettingTable
 ]
 
