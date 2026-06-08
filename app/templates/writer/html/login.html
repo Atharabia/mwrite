@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mwrite — Admin</title>
+  <link rel="stylesheet" href="/static/writer/css/login.css" />
+</head>
+<body>
+  <div class="card">
+    <div class="brand">
+      <h1>Mwrite</h1>
+      <p>Admin Dashboard</p>
+    </div>
+
+    <form id="loginForm" novalidate>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          placeholder="admin@example.com"
+          autocomplete="email"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          name="password"
+          placeholder="••••••••"
+          autocomplete="current-password"
+          required
+        />
+      </div>
+
+      <p class="error-msg" id="errorMsg"></p>
+
+      <button type="submit" id="submitBtn">Sign in</button>
+    </form>
+  </div>
+
+  <script src="/static/writer/js/login.js"></script>
+</body>
+</html>

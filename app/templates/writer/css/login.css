@@ -1,0 +1,109 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.card {
+  width: 100%;
+  max-width: 380px;
+  padding: 48px 40px;
+}
+
+.brand {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.brand h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: #CADCFA;
+}
+
+.brand p {
+  font-size: 0.8rem;
+  color: #555;
+  margin-top: 4px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #888;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+input {
+  width: 100%;
+  padding: 12px 14px;
+  background: #0d0d0d;
+  border: 1px solid #222;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input:focus {
+  border-color: #CADCFA;
+}
+
+input::placeholder {
+  color: #444;
+}
+
+.error-msg {
+  font-size: 0.8rem;
+  color: #e05c5c;
+  margin-top: 6px;
+  min-height: 18px;
+  display: none;
+}
+
+.error-msg.visible {
+  display: block;
+}
+
+button[type="submit"] {
+  width: 100%;
+  margin-top: 8px;
+  padding: 13px;
+  background: #CADCFA;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+button[type="submit"]:hover {
+  opacity: 0.88;
+}
+
+button[type="submit"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

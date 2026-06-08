@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mwrite — Dashboard</title>
+  <link rel="stylesheet" href="/static/writer/css/index.css" />
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="brand">
+      <h1>Mwrite</h1>
+      <p>Admin</p>
+    </div>
+
+    <nav>
+      <a href="/writer" class="nav-item active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+        </svg>
+        Dashboard
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="btn-logout" id="logoutBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        Sign out
+      </button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="page-header">
+      <div>
+        <h2>Dashboard</h2>
+        <p class="subtitle">Overview</p>
+      </div>
+      <button class="btn-primary" id="newPostBtn">+ New Post</button>
+    </header>
+
+    <section class="stats-grid">
+      <div class="stat-card">
+        <p class="stat-label">Total Views</p>
+        <p class="stat-value accent" id="statViews">—</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Total Posts</p>
+        <p class="stat-value" id="statPosts">—</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Published</p>
+        <p class="stat-value" id="statPublished">—</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Drafts</p>
+        <p class="stat-value" id="statDrafts">—</p>
+      </div>
+    </section>
+
+    <div class="section-header">
+      <h3>Recent Posts</h3>
+    </div>
+    <table class="posts-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Status</th>
+          <th>Views</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody id="postsBody">
+        <tr>
+          <td colspan="4"><p class="empty-state">Loading…</p></td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+
+  <script src="/static/writer/js/index.js"></script>
+</body>
+</html>
