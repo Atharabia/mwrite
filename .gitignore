@@ -25,7 +25,6 @@ htmlcov/
 
 # Environment variables
 .env
-.env.*
 
 # Editor
 .vscode/
