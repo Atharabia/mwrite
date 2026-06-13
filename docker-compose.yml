@@ -1,10 +1,18 @@
 services:
-  nginx:
-    image: nginx:1.27-alpine
+  caddy:
+    image: caddy:2-alpine
     ports:
       - "80:80"
+      - "443:443"
+    env_file:
+      - .env
     volumes:
-      - ./docker/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/Caddyfile.template:/etc/caddy/Caddyfile.template:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    entrypoint: /bin/sh -c "
+      cp /etc/caddy/Caddyfile.template /etc/caddy/Caddyfile &&
+      exec caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"
     depends_on:
       - app
     restart: unless-stopped
@@ -55,3 +63,5 @@ services:
 volumes:
   db-data:
   redis-data:
+  caddy-data:
+  caddy-config:
