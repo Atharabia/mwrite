@@ -1,4 +1,4 @@
-const PAGE_SIZE = 5;
+const PAGE_SIZE = window.POSTS_PER_PAGE ?? 10;
 let currentPage = 1;
 let totalPages = 1;
 

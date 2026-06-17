@@ -34,6 +34,7 @@ class WriterAuth:
                                  Settings.JWT_SECRET_KEY,
                                  algorithms=[Settings.JWT_ALGORITHM])
             email = payload.get("sub")
+            roles = payload.get("roles", [])
             expiration = payload.get("exp")
 
             if expiration is None or datetime.now(timezone.utc).timestamp() > expiration:
@@ -45,7 +46,7 @@ class WriterAuth:
         writer: WriterDTO | None = await WriterController.get_writer(email=email)
         if writer is None:
             return None, "INVALID_TOKEN"
-        return WriterPublic(id=writer.id, email=writer.email), None
+        return WriterPublic(id=writer.id, email=writer.email, roles=roles), None
 
     @staticmethod
     async def require_writer(

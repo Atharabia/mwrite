@@ -10,3 +10,4 @@ class LoginRequest(BaseModel):
 class WriterPublic(BaseModel):
     id: int
     email: str
+    roles: list[str] = []

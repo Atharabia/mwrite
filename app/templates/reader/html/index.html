@@ -3,14 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mwrite</title>
+  {% if settings.allow_indexing == "false" %}
+  <meta name="robots" content="noindex,nofollow" />
+  {% endif %}
+  <title>{{ settings.blog_name }}</title>
   <link rel="stylesheet" href="/static/reader/css/index.css" />
 </head>
 <body>
 
   <header class="site-header">
     <div class="inner">
-      <h1>Mwrite</h1>
+      <h1>{{ settings.blog_name }}</h1>
+      {% if settings.blog_tagline %}
+      <p class="tagline">{{ settings.blog_tagline }}</p>
+      {% endif %}
     </div>
   </header>
 
@@ -25,6 +31,13 @@
     </div>
   </main>
 
+  {% if settings.footer_text %}
+  <footer class="site-footer"><p>{{ settings.footer_text }}</p></footer>
+  {% endif %}
+
+  <script>
+    window.POSTS_PER_PAGE = {{ settings.posts_per_page }};
+  </script>
   <script src="/static/reader/js/index.js"></script>
 </body>
 </html>

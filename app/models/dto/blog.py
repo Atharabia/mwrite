@@ -12,6 +12,7 @@ class BlogCreateDTO(BaseModel):
     content_html: str
     content_text: str
     status: BlogStatus = BlogStatus.published
+    created_by: int | None = None
 
 
 class BlogUpdateDTO(BaseModel):
@@ -20,6 +21,7 @@ class BlogUpdateDTO(BaseModel):
     content_html: str | None = None
     content_text: str | None = None
     status: BlogStatus | None = None
+    updated_by: int | None = None
 
 
 class BlogDTO(BaseModel):
@@ -31,6 +33,8 @@ class BlogDTO(BaseModel):
     content_text: str
     status: BlogStatus
     views: int
+    created_by: int | None
+    updated_by: int | None
     created_at: datetime
     updated_at: datetime
 

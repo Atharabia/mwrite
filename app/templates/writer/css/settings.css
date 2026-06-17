@@ -1,0 +1,84 @@
+.settings-form {
+  margin-bottom: 2rem;
+}
+
+.form-section {
+  background: #0d0d0d;
+  border: 1px solid #1a1a1a;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 1.25rem;
+  color: #fff;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  margin-bottom: 1rem;
+}
+
+.form-group--inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.form-group label {
+  font-size: 0.8125rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="file"],
+.form-group textarea {
+  background: #000;
+  border: 1px solid #1a1a1a;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  outline: none;
+  transition: border-color 0.15s;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #CADCFA;
+}
+
+.form-group input[type="checkbox"] {
+  cursor: pointer;
+  accent-color: #CADCFA;
+}
+
+.field-hint {
+  font-size: 0.75rem;
+  color: #555;
+  margin: 0;
+}
+
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: #0d0d0d;
+  border: 1px solid #1a1a1a;
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+  z-index: 100;
+  transition: opacity 0.2s;
+}
+
+.toast.success { border-color: #4caf50; color: #4caf50; }
+.toast.error   { border-color: #f44336; color: #f44336; }
+.toast.hidden  { display: none; }

@@ -30,7 +30,7 @@ const quill = new Quill("#editor", {
 });
 
 async function uploadImage(dataUrl) {
-  const res = await fetch("/writer/upload-image", {
+  const res = await fetch("/api/writer/upload-image", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ data_url: dataUrl }),
@@ -89,7 +89,7 @@ function syncToggleBtn(status) {
 syncToggleBtn(blog.status);
 
 async function patch(fields) {
-  const res = await fetch(`/writer/update-blog/${blog.id}`, {
+  const res = await fetch(`/api/writer/update-blog/${blog.id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(fields),
@@ -150,6 +150,6 @@ document.getElementById("saveBtn").addEventListener("click", save);
 toggleBtn.addEventListener("click", toggleStatus);
 
 document.getElementById("logoutBtn")?.addEventListener("click", async () => {
-  await fetch("/writer/logout", { method: "POST" });
+  await fetch("/api/writer/logout", { method: "POST" });
   window.location.replace("/writer/login");
 });

@@ -16,6 +16,8 @@ from .tables import WriterTable
 from .tables import BlogTable
 from .tables import ImageTable
 from .tables import SettingTable
+from .tables import RoleTable
+from .tables import WriterRoleTable
 
 
 __all__ = [
@@ -23,6 +25,8 @@ __all__ = [
     "BlogTable",
     "ImageTable",
     "SettingTable",
+    "RoleTable",
+    "WriterRoleTable",
 ]
 
 

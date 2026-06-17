@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 
-from . import blog, login, image
+from . import blog, login, image, setting
+from . import admin as admin_users
 
 
 class RoutersRegistry:
@@ -11,4 +12,6 @@ class RoutersRegistry:
         cls.router.include_router(login.router)
         cls.router.include_router(blog.router)
         cls.router.include_router(image.router)
+        cls.router.include_router(setting.router)
+        cls.router.include_router(admin_users.router)
         return cls.router

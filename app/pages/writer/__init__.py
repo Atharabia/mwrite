@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 
-from . import login
-from . import blog
+from . import login, blog, setting, admin as admin_pages
 
 
 class PagesRegistry:
@@ -11,4 +10,6 @@ class PagesRegistry:
     def register_routers(cls) -> APIRouter:
         cls.router.include_router(login.router)
         cls.router.include_router(blog.router)
+        cls.router.include_router(setting.router)
+        cls.router.include_router(admin_pages.router)
         return cls.router

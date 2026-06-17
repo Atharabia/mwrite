@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from pydantic import BaseModel
+from pydantic import ConfigDict
 from pydantic import Field
 
 from app.models.enums import BlogStatus
@@ -23,6 +24,8 @@ class BlogUpdate(BaseModel):
 
 
 class BlogPublic(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+
     id: int
     slug: str | None
     title: str
@@ -31,6 +34,8 @@ class BlogPublic(BaseModel):
     content_text: str
     status: BlogStatus
     views: int
+    created_by: int | None = None
+    updated_by: int | None = None
     created_at: datetime
     updated_at: datetime
 

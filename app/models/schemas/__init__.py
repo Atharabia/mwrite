@@ -5,6 +5,11 @@ from .blog import BlogPublic
 from .blog import BlogPublicReader
 from .blog import BlogUpdate
 from .image import ImageUpload
+from .setting import SettingsUpdate
+from .setting import SettingsPublic
+from .setting import AdminCreate
+from .setting import AdminUpdate
+from .setting import AdminPublic
 
 __all__ = [
     "WriterPublic",
@@ -14,4 +19,9 @@ __all__ = [
     "BlogPublicReader",
     "BlogUpdate",
     "ImageUpload",
+    "SettingsUpdate",
+    "SettingsPublic",
+    "AdminCreate",
+    "AdminUpdate",
+    "AdminPublic",
 ]

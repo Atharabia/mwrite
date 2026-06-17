@@ -11,13 +11,17 @@ from app.database import BlogTable
 from app.database import ImageTable
 from app.database import SettingTable
 from app.database import WriterTable
+from app.database import RoleTable
+from app.database import WriterRoleTable
 from app.settings import Settings
 
 all_tables = [
     WriterTable,
     BlogTable,
     ImageTable,
-    SettingTable
+    SettingTable,
+    RoleTable,
+    WriterRoleTable,
 ]
 
 
