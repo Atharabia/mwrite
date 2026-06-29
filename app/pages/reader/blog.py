@@ -29,7 +29,7 @@ async def post(
 ) -> HTMLResponse:
     blog = await BlogController.get_published_blog(slug=slug)
     if blog:
-        client_host = request.client.host if request.client else "0.0.0.0"
+        client_host = request.client.host if request.client else ""
         ip = (
             request.headers.get("X-Forwarded-For", "").split(",")[0].strip()
             or client_host

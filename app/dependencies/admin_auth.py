@@ -40,8 +40,11 @@ class WriterAuth:
                 Settings.JWT_SECRET_KEY,
                 algorithms=[Settings.JWT_ALGORITHM],
             )
-            email = payload.get("sub")
-            expiration = payload.get("exp")
+            email: str | None = payload.get("sub")
+            expiration: int | None = payload.get("exp")
+
+            if not email:
+                return None, "INVALID_TOKEN"
 
             if expiration is None or (
                 datetime.now(timezone.utc).timestamp() > expiration
@@ -52,10 +55,11 @@ class WriterAuth:
             return None, "INVALID_TOKEN"
 
         writer: WriterDTO | None = await WriterController.get_writer(
-            email=email if email else ""
-        )
+            email=email)
+
         if writer is None:
             return None, "INVALID_TOKEN"
+
         return WriterPublic(id=writer.id, email=writer.email), None
 
     @staticmethod
