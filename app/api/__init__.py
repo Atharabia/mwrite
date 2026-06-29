@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 
-from .writer import RoutersRegistry as WriterRegistry
-from .reader import RoutersRegistry as ReaderRegistry
 from .general import RoutersRegistry as GeneralRegistry
+from .reader import RoutersRegistry as ReaderRegistry
+from .writer import RoutersRegistry as WriterRegistry
 
 
 class RoutersRegistry:

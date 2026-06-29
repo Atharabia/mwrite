@@ -23,26 +23,37 @@ class WriterAuth:
     @staticmethod
     def create_token(data: dict, expires_minutes: int) -> str:
         payload = data.copy()
-        payload["exp"] = datetime.now(timezone.utc) + timedelta(minutes=expires_minutes)
-        return jwt.encode(payload, Settings.JWT_SECRET_KEY,
-                          algorithm=Settings.JWT_ALGORITHM)
+        payload["exp"] = (
+            datetime.now(timezone.utc) + timedelta(minutes=expires_minutes)
+        )
+        return jwt.encode(
+            payload, Settings.JWT_SECRET_KEY, algorithm=Settings.JWT_ALGORITHM
+        )
 
     @staticmethod
-    async def _verify_token(token: str) -> tuple[WriterPublic | None, str | None]:
+    async def _verify_token(
+        token: str,
+    ) -> tuple[WriterPublic | None, str | None]:
         try:
-            payload = jwt.decode(token,
-                                 Settings.JWT_SECRET_KEY,
-                                 algorithms=[Settings.JWT_ALGORITHM])
+            payload = jwt.decode(
+                token,
+                Settings.JWT_SECRET_KEY,
+                algorithms=[Settings.JWT_ALGORITHM],
+            )
             email = payload.get("sub")
             expiration = payload.get("exp")
 
-            if expiration is None or datetime.now(timezone.utc).timestamp() > expiration:
+            if expiration is None or (
+                datetime.now(timezone.utc).timestamp() > expiration
+            ):
                 return None, "SESSION_EXPIRED"
 
         except Exception:
             return None, "INVALID_TOKEN"
 
-        writer: WriterDTO | None = await WriterController.get_writer(email=email)
+        writer: WriterDTO | None = await WriterController.get_writer(
+            email=email if email else ""
+        )
         if writer is None:
             return None, "INVALID_TOKEN"
         return WriterPublic(id=writer.id, email=writer.email), None

@@ -4,7 +4,6 @@ from fastapi.responses import Response
 
 from app.controller import ImageController
 
-
 router = APIRouter(tags=["General"])
 
 

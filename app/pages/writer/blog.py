@@ -1,8 +1,11 @@
 from pathlib import Path
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Request
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi import APIRouter
+from fastapi import Depends
+from fastapi import Request
+from fastapi.responses import HTMLResponse
+from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 
 from app.controller import BlogController

@@ -7,9 +7,8 @@ from app.controller import ImageController
 from app.dependencies import WriterAuth
 from app.models.responses import Response
 from app.models.responses import Status
-from app.models.schemas import WriterPublic
 from app.models.schemas import ImageUpload
-
+from app.models.schemas import WriterPublic
 
 router = APIRouter(tags=["Writer"])
 

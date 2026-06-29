@@ -5,10 +5,10 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from app.api import RoutersRegistry
-from app.middleware import MiddlewareRegistry
-from app.pages import PagesRegistry
 from app.database import create_database_tables
 from app.init import run_init_scripts
+from app.middleware import MiddlewareRegistry
+from app.pages import PagesRegistry
 from app.redis.views import flush_views_loop
 from app.settings import Settings
 from app.templates import StaticRegistry

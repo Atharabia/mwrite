@@ -12,11 +12,10 @@ from typing_extensions import ParamSpec
 
 from app.settings import Settings
 
-from .tables import WriterTable
 from .tables import BlogTable
 from .tables import ImageTable
 from .tables import SettingTable
-
+from .tables import WriterTable
 
 __all__ = [
     "WriterTable",

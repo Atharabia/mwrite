@@ -8,7 +8,6 @@ from app.controller import BlogController
 from app.models.responses import Response
 from app.models.responses import Status
 
-
 router = APIRouter(tags=["Reader"])
 
 
