@@ -2,7 +2,8 @@ import bcrypt
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from app.database import WriterTable, engine
+from app.database import WriterTable
+from app.database import engine
 from app.settings import Settings
 
 

@@ -2,14 +2,13 @@ from fastapi import APIRouter
 from fastapi import Request
 from fastapi import Response as HTTPResponse
 
+from app.controller import WriterController
 from app.dependencies.admin_auth import WriterAuth
 from app.middleware.rate_limiter import limiter
 from app.models.responses import Response
 from app.models.responses import Status
 from app.models.schemas import LoginRequest
-from app.controller import WriterController
 from app.settings import Settings
-
 
 router = APIRouter(tags=["Writer"])
 

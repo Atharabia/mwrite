@@ -2,10 +2,10 @@ import uuid
 from datetime import datetime
 from datetime import timezone
 
-from sqlalchemy import Text
-
-from sqlmodel import Field
+from sqlalchemy import Column
 from sqlalchemy import LargeBinary
+from sqlalchemy import Text
+from sqlmodel import Field
 from sqlmodel import SQLModel
 
 from app.models.enums import BlogStatus
@@ -38,7 +38,7 @@ class ImageTable(SQLModel, table=True):
 
     id: str = Field(default_factory=lambda: str(uuid.uuid4()),
                     primary_key=True)
-    data: bytes = Field(sa_type=LargeBinary(length=16_777_215))
+    data: bytes = Field(sa_column=Column(LargeBinary(length=16_777_215)))
     mime_type: str = Field()
 
     created_at: datetime = Field(default_factory=utc_now)

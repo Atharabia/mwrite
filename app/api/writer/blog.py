@@ -5,17 +5,16 @@ from fastapi import Depends
 from slugify import slugify
 
 from app.controller import BlogController
+from app.dependencies import WriterAuth
 from app.models.dto import BlogCreateDTO
 from app.models.dto import BlogUpdateDTO
 from app.models.responses import Response
 from app.models.responses import Status
-from app.models.schemas import WriterPublic
 from app.models.schemas import BlogCreate
 from app.models.schemas import BlogPublic
 from app.models.schemas import BlogUpdate
-from app.dependencies import WriterAuth
+from app.models.schemas import WriterPublic
 from app.redis.views import get_buffered_views_many
-
 
 router = APIRouter(tags=["Writer"])
 

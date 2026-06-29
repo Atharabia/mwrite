@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-from . import login
 from . import blog
+from . import login
 
 
 class PagesRegistry:

@@ -1,6 +1,8 @@
 from fastapi import APIRouter
 
-from . import blog, login, image
+from . import blog
+from . import image
+from . import login
 
 
 class RoutersRegistry:

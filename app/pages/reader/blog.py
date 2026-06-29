@@ -29,9 +29,10 @@ async def post(
 ) -> HTMLResponse:
     blog = await BlogController.get_published_blog(slug=slug)
     if blog:
+        client_host = request.client.host if request.client else ""
         ip = (
             request.headers.get("X-Forwarded-For", "").split(",")[0].strip()
-            or request.client.host
+            or client_host
         )
         background_tasks.add_task(record_view, blog.id, ip)
     return templates.TemplateResponse("reader/html/post.html",

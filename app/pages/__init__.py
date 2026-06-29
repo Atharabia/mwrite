@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
-from .writer import PagesRegistry as WriterRegistry
 from .reader import PagesRegistry as ReaderRegistry
+from .writer import PagesRegistry as WriterRegistry
 
 
 class PagesRegistry:

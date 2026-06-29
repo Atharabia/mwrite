@@ -1,11 +1,13 @@
-from sqlmodel import func, select
+from sqlmodel import desc
+from sqlmodel import func
+from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.database import BlogTable
 from app.database import session
-from app.models.dto import BlogReaderDTO
 from app.models.dto import BlogCreateDTO
 from app.models.dto import BlogDTO
+from app.models.dto import BlogReaderDTO
 from app.models.dto import BlogUpdateDTO
 from app.models.enums import BlogStatus
 
@@ -15,7 +17,7 @@ class BlogController:
     @session
     async def get_blogs(db: AsyncSession) -> list[BlogDTO]:
         result = await db.exec(
-            select(BlogTable).order_by(BlogTable.created_at.desc()))
+            select(BlogTable).order_by(desc(BlogTable.created_at)))
         rows = result.all()
         return [BlogDTO.model_validate(row, from_attributes=True)
                 for row in rows]
@@ -36,7 +38,7 @@ class BlogController:
         result = await db.exec(
             select(BlogTable)
             .where(BlogTable.status == BlogStatus.published)
-            .order_by(BlogTable.created_at.desc()))
+            .order_by(desc(BlogTable.created_at)))
         rows = result.all()
         return [BlogReaderDTO(id=row.id, slug=row.slug, title=row.title,
                               content=row.content_html, views=row.views,
@@ -53,7 +55,7 @@ class BlogController:
     ) -> tuple[list[BlogReaderDTO], int]:
         base = (select(BlogTable)
                 .where(BlogTable.status == BlogStatus.published)
-                .order_by(BlogTable.created_at.desc()))
+                .order_by(desc(BlogTable.created_at)))
 
         total = (await db.exec(
             select(func.count()).select_from(base.subquery())

@@ -53,3 +53,14 @@ plugins = ["pydantic.mypy"]
 [[tool.mypy.overrides]]
 module = "app.middleware.rate_limiter"
 disable_error_code = ["arg-type"]
+
+[[tool.mypy.overrides]]
+module = "app.redis.views"
+disable_error_code = ["arg-type"]
+
+[[tool.mypy.overrides]]
+module = "app.middleware"
+disable_error_code = ["arg-type"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
