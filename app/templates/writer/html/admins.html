@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admins — {{ settings.APP_NAME }}</title>
+  <link rel="stylesheet" href="/static/writer/css/index.css" />
+  <link rel="stylesheet" href="/static/writer/css/admins.css" />
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="brand"><h1>{{ settings.APP_NAME }}</h1><p>Admin</p></div>
+    <nav>
+      <a href="/writer" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+        </svg>
+        Dashboard
+      </a>
+      {% if "super_admin" in writer.roles %}
+      <a href="/writer/settings" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        Settings
+      </a>
+      <a href="/writer/admins" class="nav-item active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        Admins
+      </a>
+      {% endif %}
+    </nav>
+    <div class="sidebar-footer">
+      <button class="btn-logout" id="logoutBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        Sign out
+      </button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="page-header">
+      <div><h2>Admins</h2><p class="subtitle">Manage admin users</p></div>
+      <button class="btn-primary" id="addAdminBtn">+ Add Admin</button>
+    </header>
+
+    <p class="role-note">Role changes take effect on the user's next login.</p>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <table class="posts-table">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Roles</th>
+          <th>Created</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="adminsBody">
+        <tr><td colspan="4"><p class="empty-state">Loading…</p></td></tr>
+      </tbody>
+    </table>
+  </main>
+
+  <!-- Add/Edit modal -->
+  <div id="modal" class="modal hidden">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-box">
+      <h3 id="modalTitle">Add Admin</h3>
+      <form id="adminForm">
+        <input type="hidden" id="editId" />
+        <div class="form-group">
+          <label for="adminEmail">Email</label>
+          <input type="email" id="adminEmail" required />
+        </div>
+        <div class="form-group">
+          <label for="adminPassword">Password <span id="passwordHint">(leave blank to keep current)</span></label>
+          <input type="password" id="adminPassword" />
+        </div>
+        <div class="form-group">
+          <label>Roles</label>
+          <div class="roles-checkboxes">
+            <label><input type="checkbox" name="role" value="super_admin" /> super_admin</label>
+            <label><input type="checkbox" name="role" value="editor" /> editor</label>
+            <label><input type="checkbox" name="role" value="writer" /> writer</label>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="cancelBtn">Cancel</button>
+          <button type="submit" class="btn-primary" id="saveBtn">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/static/writer/js/admins.js"></script>
+</body>
+</html>
