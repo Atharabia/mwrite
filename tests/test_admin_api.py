@@ -4,6 +4,8 @@ import pytest_asyncio
 from app.models.enums import Role
 from tests.conftest import make_token
 
+_non_admin_token = lambda: make_token("user@test.com", [])
+
 
 @pytest_asyncio.fixture(autouse=True, scope="module")
 async def create_tables():
@@ -21,8 +23,6 @@ async def test_get_writer_roles_returns_empty_for_unknown_writer():
     roles = await WriterController.get_writer_roles(writer_id=99999)
     assert roles == []
 
-
-# ── auth boundary: no token ──────────────────────────────────────────────────
 
 @pytest.mark.asyncio
 async def test_list_admins_requires_auth(client):
@@ -51,18 +51,16 @@ async def test_delete_admin_requires_auth(client):
     assert r.status_code == 401
 
 
-# ── auth boundary: wrong role ────────────────────────────────────────────────
-
 @pytest.mark.asyncio
 async def test_list_admins_requires_super_admin_role(client):
-    token = make_token("editor@test.com", [Role.editor])
+    token = _non_admin_token()
     r = await client.get("/api/writer/admins", cookies={"access_token": token})
     assert r.status_code == 403
 
 
 @pytest.mark.asyncio
 async def test_create_admin_requires_super_admin_role(client):
-    token = make_token("editor@test.com", [Role.editor])
+    token = _non_admin_token()
     r = await client.post(
         "/api/writer/admins",
         json={"email": "x@x.com", "password": "pass"},
@@ -73,7 +71,7 @@ async def test_create_admin_requires_super_admin_role(client):
 
 @pytest.mark.asyncio
 async def test_update_admin_requires_super_admin_role(client):
-    token = make_token("editor@test.com", [Role.editor])
+    token = _non_admin_token()
     r = await client.patch(
         "/api/writer/admins/1",
         json={"email": "x@x.com"},
@@ -84,15 +82,13 @@ async def test_update_admin_requires_super_admin_role(client):
 
 @pytest.mark.asyncio
 async def test_delete_admin_requires_super_admin_role(client):
-    token = make_token("editor@test.com", [Role.editor])
+    token = _non_admin_token()
     r = await client.delete(
         "/api/writer/admins/1",
         cookies={"access_token": token},
     )
     assert r.status_code == 403
 
-
-# ── schema validation: invalid role ─────────────────────────────────────────
 
 @pytest.mark.asyncio
 async def test_create_admin_rejects_invalid_role(client):

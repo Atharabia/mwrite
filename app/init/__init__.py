@@ -1,5 +1,4 @@
 import bcrypt
-from sqlalchemy.dialects.mysql import insert as mysql_insert
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
@@ -10,15 +9,13 @@ from app.database import engine
 from app.models.enums import Role
 from app.settings import Settings
 
-ROLE_NAMES = [Role.super_admin, Role.editor, Role.writer]
-
 
 async def _seed_roles(db: AsyncSession) -> None:
-    await db.execute(
-        mysql_insert(RoleTable)
-        .values([{"name": r} for r in ROLE_NAMES])
-        .prefix_with("IGNORE")
-    )
+    result = await db.exec(select(RoleTable.name))
+    existing = set(result.all())
+    for role in Role:
+        if role not in existing:
+            db.add(RoleTable(name=role))
 
 
 async def _create_default_writer(db: AsyncSession) -> None:

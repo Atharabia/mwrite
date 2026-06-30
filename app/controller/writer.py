@@ -20,24 +20,28 @@ class WriterController:
         result = await db.exec(select(WriterTable)
                                .where(WriterTable.email == email))
         row = result.first()
+
         if row is None:
             return None
+
         return WriterDTO(id=row.id, email=row.email, password=row.password,
                          created_at=row.created_at, updated_at=row.updated_at)
 
     @staticmethod
     @session
-    async def get_writer_roles(
-        db: AsyncSession, *, writer_id: int
-    ) -> list[str]:
+    async def get_writer_roles(db: AsyncSession,
+                               *,
+                               writer_id: int) -> list[str]:
         join_condition = WriterRoleTable.role_id == RoleTable.id
         where_condition = WriterRoleTable.writer_id == writer_id
-        stmt = (  # type: ignore[arg-type]
+
+        statement = (
             select(RoleTable.name)
             .join(WriterRoleTable, join_condition)
             .where(where_condition)
         )
-        result = await db.exec(stmt)
+
+        result = await db.exec(statement)
         return list(result.all())
 
     @staticmethod
@@ -45,6 +49,7 @@ class WriterController:
     async def list_writers(db: AsyncSession) -> list[WriterWithRolesDTO]:
         writers_result = await db.exec(select(WriterTable))
         writers = writers_result.all()
+
         if not writers:
             return []
 
@@ -54,6 +59,7 @@ class WriterController:
             .join(RoleTable, RoleTable.id == WriterRoleTable.role_id)
             .where(col(WriterRoleTable.writer_id).in_(writer_ids))
         )
+
         roles_by_writer: dict[int, list[str]] = {}
         for writer_id, role_name in roles_result.all():
             roles_by_writer.setdefault(writer_id, []).append(role_name)
@@ -77,29 +83,35 @@ class WriterController:
         plain_password: str,
         role_names: list[str],
     ) -> WriterWithRolesDTO:
-        existing = await db.exec(
-            select(WriterTable).where(WriterTable.email == email))
+        existing = await db.exec(select(WriterTable)
+                                 .where(WriterTable.email == email))
+
         if existing.first() is not None:
             raise ValueError("EMAIL_ALREADY_EXISTS")
 
-        hashed = bcrypt.hashpw(
-            plain_password.encode(), bcrypt.gensalt()
-        ).decode()
+        hashed = bcrypt.hashpw(plain_password.encode(),
+                               bcrypt.gensalt()).decode()
+
         writer = WriterTable(email=email, password=hashed)
         db.add(writer)
         await db.flush()
 
         roles_result = await db.exec(
-            select(RoleTable).where(col(RoleTable.name).in_(role_names)))
+            select(RoleTable)
+            .where(col(RoleTable.name).in_(role_names))
+        )
+
         for role in roles_result.all():
             db.add(WriterRoleTable(writer_id=writer.id, role_id=role.id))
 
         await db.commit()
         await db.refresh(writer)
-        return WriterWithRolesDTO(
-            id=writer.id, email=writer.email,
-            roles=role_names, created_at=writer.created_at,
-        )
+
+        return WriterWithRolesDTO(id=writer.id,
+                                  email=writer.email,
+                                  roles=role_names,
+                                  created_at=writer.created_at,
+                                  )
 
     @staticmethod
     @session
@@ -111,9 +123,10 @@ class WriterController:
         plain_password: str | None = None,
         role_names: list[str] | None = None,
     ) -> WriterWithRolesDTO | None:
-        result = await db.exec(
-            select(WriterTable).where(WriterTable.id == writer_id))
+        result = await db.exec(select(WriterTable)
+                               .where(WriterTable.id == writer_id))
         writer = result.first()
+
         if writer is None:
             return None
 
@@ -126,10 +139,10 @@ class WriterController:
             if dup.first() is not None:
                 raise ValueError("EMAIL_ALREADY_EXISTS")
             writer.email = email
+
         if plain_password is not None:
-            writer.password = bcrypt.hashpw(
-                plain_password.encode(), bcrypt.gensalt()
-            ).decode()
+            writer.password = bcrypt.hashpw(plain_password.encode(),
+                                            bcrypt.gensalt()).decode()
 
         if role_names is not None:
             if Role.super_admin not in role_names:
@@ -145,11 +158,13 @@ class WriterController:
                     if len(ids) == 1 and writer_id in ids:
                         raise ValueError("CANNOT_REMOVE_LAST_SUPER_ADMIN")
 
-            await db.exec(
-                sa_delete(WriterRoleTable)
-                .where(WriterRoleTable.writer_id == writer_id))
+            await db.exec(sa_delete(WriterRoleTable)
+                          .where(WriterRoleTable.writer_id == writer_id))
+
             roles_result = await db.exec(
-                select(RoleTable).where(col(RoleTable.name).in_(role_names)))
+                select(RoleTable)
+                .where(col(RoleTable.name).in_(role_names)))
+
             for role in roles_result.all():
                 db.add(WriterRoleTable(writer_id=writer_id, role_id=role.id))
 
@@ -170,11 +185,7 @@ class WriterController:
         db: AsyncSession,
         *,
         writer_id: int,
-        current_writer_id: int,
     ) -> None:
-        if writer_id == current_writer_id:
-            raise ValueError("CANNOT_DELETE_SELF")
-
         super_admin_role = (await db.exec(
             select(RoleTable).where(RoleTable.name == Role.super_admin)
         )).first()
@@ -184,6 +195,7 @@ class WriterController:
                 select(WriterRoleTable)
                 .where(WriterRoleTable.role_id == super_admin_role.id)
             )).all()
+
             super_admin_ids = {wr.writer_id for wr in super_admin_writers}
             if len(super_admin_ids) == 1 and writer_id in super_admin_ids:
                 raise ValueError("CANNOT_DELETE_LAST_SUPER_ADMIN")

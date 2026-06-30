@@ -4,7 +4,7 @@ from . import images
 
 
 class RoutersRegistry:
-    router = APIRouter()
+    router = APIRouter(prefix="/api/general")
 
     @classmethod
     def register_routers(cls) -> APIRouter:

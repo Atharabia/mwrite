@@ -55,4 +55,5 @@ async def edit_post(request: Request,
         return RedirectResponse(url="/writer", status_code=302)
     return templates.TemplateResponse("writer/html/edit-post.html",
                                       {"request": request,
+                                       "writer": writer,
                                        "blog": blog.model_dump(mode="json")})

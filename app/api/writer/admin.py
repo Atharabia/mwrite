@@ -88,10 +88,10 @@ async def delete_admin(
     ],
 ) -> Response:
     try:
-        await WriterController.delete_writer(
-            writer_id=writer_id,
-            current_writer_id=current_writer.id,
-        )
+        if writer_id == current_writer.id:
+            raise ValueError("CANNOT_DELETE_SELF")
+
+        await WriterController.delete_writer(writer_id=writer_id)
     except ValueError as e:
         return Response(status=Status.FAILURE, code=str(e))
     return Response(status=Status.success)

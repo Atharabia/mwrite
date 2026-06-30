@@ -8,5 +8,3 @@ class BlogStatus(str, Enum):
 
 class Role(str, Enum):
     super_admin = "super_admin"
-    editor = "editor"
-    writer = "writer"

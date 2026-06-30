@@ -27,6 +27,30 @@
     return new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
   }
 
+  function openEdit(id, email, roles) {
+    document.getElementById('modalTitle').textContent = 'Edit Admin';
+    editId.value = id;
+    document.getElementById('adminEmail').value = email;
+    document.getElementById('adminPassword').value = '';
+    passwordHint.style.display = '';
+    setSelectedRoles(roles);
+    modal.classList.remove('hidden');
+  }
+
+  async function deleteAdmin(id, email) {
+    if (!confirm(`Delete ${email}? This cannot be undone.`)) return;
+    const res = await fetch(`/api/writer/admins/${id}`, {
+      method: 'DELETE', credentials: 'include',
+    });
+    const json = await res.json();
+    if (json.status === 'SUCCESS') {
+      showToast('Admin deleted');
+      await loadAdmins();
+    } else {
+      showToast(json.code || 'Error', 'error');
+    }
+  }
+
   async function loadAdmins() {
     const res = await fetch('/api/writer/admins', { credentials: 'include' });
     const { data } = await res.json();
@@ -40,36 +64,23 @@
         <td>${a.roles.map(r => `<span class="role-badge">${r}</span>`).join('')}</td>
         <td>${formatDate(a.created_at)}</td>
         <td>
-          <button class="btn-secondary" onclick="openEdit(${a.id}, '${a.email}', ${JSON.stringify(a.roles)})">Edit</button>
-          <button class="btn-delete" onclick="deleteAdmin(${a.id}, '${a.email}')">Delete</button>
+          <button class="btn-secondary" data-action="edit" data-id="${a.id}" data-email="${a.email}" data-roles="${encodeURIComponent(JSON.stringify(a.roles))}">Edit</button>
+          <button class="btn-delete" data-action="delete" data-id="${a.id}" data-email="${a.email}">Delete</button>
         </td>
       </tr>
     `).join('');
   }
 
-  window.openEdit = (id, email, roles) => {
-    document.getElementById('modalTitle').textContent = 'Edit Admin';
-    editId.value = id;
-    document.getElementById('adminEmail').value = email;
-    document.getElementById('adminPassword').value = '';
-    passwordHint.style.display = '';
-    setSelectedRoles(roles);
-    modal.classList.remove('hidden');
-  };
-
-  window.deleteAdmin = async (id, email) => {
-    if (!confirm(`Delete ${email}? This cannot be undone.`)) return;
-    const res = await fetch(`/api/writer/admins/${id}`, {
-      method: 'DELETE', credentials: 'include',
-    });
-    const json = await res.json();
-    if (json.status === 'SUCCESS') {
-      showToast('Admin deleted');
-      await loadAdmins();
-    } else {
-      showToast(json.code || 'Error', 'error');
+  tbody.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-action]');
+    if (!btn) return;
+    const { action, id, email, roles } = btn.dataset;
+    if (action === 'delete') {
+      deleteAdmin(Number(id), email);
+    } else if (action === 'edit') {
+      openEdit(Number(id), email, JSON.parse(decodeURIComponent(roles)));
     }
-  };
+  });
 
   document.getElementById('addAdminBtn').addEventListener('click', () => {
     document.getElementById('modalTitle').textContent = 'Add Admin';
