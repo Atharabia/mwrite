@@ -31,6 +31,8 @@ services:
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       ADMIN_EMAIL: ${ADMIN_EMAIL}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+    volumes:
+      - ./alembic/versions:/app/alembic/versions
     depends_on:
       db:
         condition: service_healthy

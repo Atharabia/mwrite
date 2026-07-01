@@ -15,6 +15,7 @@ from app.database import WriterRoleTable
 from app.database import WriterTable
 from app.settings import Settings
 
+
 all_tables = [
     WriterTable,
     BlogTable,
@@ -24,13 +25,22 @@ all_tables = [
     WriterRoleTable,
 ]
 
-
 config = context.config
 config.set_main_option("sqlalchemy.url", Settings.DATABASE_URL)
 target_metadata = SQLModel.metadata
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
+
+
+def compare_type(context, inspected_column, metadata_column,
+                 inspected_type, metadata_type):
+    # Dialects reflect generic types as their own concrete subtype (e.g.
+    # MySQL always reports a LargeBinary column back as MEDIUMBLOB). Treat
+    # same-family types as equal so this doesn't show up as a diff forever.
+    if inspected_type._type_affinity is metadata_type._type_affinity:
+        return False
+    return None
 
 
 def run_migrations_offline() -> None:
@@ -40,6 +50,7 @@ def run_migrations_offline() -> None:
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
+        compare_type=compare_type,
     )
 
     with context.begin_transaction():
@@ -47,7 +58,11 @@ def run_migrations_offline() -> None:
 
 
 def do_run_migrations(connection: Connection) -> None:
-    context.configure(connection=connection, target_metadata=target_metadata)
+    context.configure(
+        connection=connection,
+        target_metadata=target_metadata,
+        compare_type=compare_type,
+    )
 
     with context.begin_transaction():
         context.run_migrations()

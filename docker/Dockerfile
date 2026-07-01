@@ -24,10 +24,13 @@ ENV PATH="/app/.venv/bin:${PATH}"
 COPY app ./app
 COPY alembic ./alembic
 COPY alembic.ini ./
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 RUN chown -R app:app /app
 USER app
 
 EXPOSE 8000
 
+ENTRYPOINT ["entrypoint.sh"]
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]

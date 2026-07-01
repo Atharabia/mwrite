@@ -4,6 +4,7 @@ from datetime import timezone
 
 from sqlalchemy import Column
 from sqlalchemy import LargeBinary
+from sqlalchemy import String
 from sqlalchemy import Text
 from sqlmodel import Field
 from sqlmodel import SQLModel
@@ -65,7 +66,10 @@ class BlogTable(SQLModel, table=True):
     content_delta: str = Field(default="", sa_type=Text)
     content_html: str = Field(default="", sa_type=Text)
     content_text: str = Field(default="", sa_type=Text)
-    status: BlogStatus = Field(default=BlogStatus.draft)
+    status: BlogStatus = Field(
+        default=BlogStatus.draft,
+        sa_column=Column(String(length=255), nullable=False),
+    )
     views: int = Field(default=0)
 
     created_at: datetime = Field(default_factory=utc_now)

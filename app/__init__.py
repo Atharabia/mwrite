@@ -5,7 +5,6 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from app.api import RoutersRegistry
-from app.database import create_database_tables
 from app.init import run_init_scripts
 from app.middleware import MiddlewareRegistry
 from app.pages import PagesRegistry
@@ -16,7 +15,6 @@ from app.templates import StaticRegistry
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
-    await create_database_tables()
     await run_init_scripts()
     task = asyncio.create_task(flush_views_loop())
     yield
