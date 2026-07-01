@@ -5,11 +5,13 @@ Revises: 446f4f176550
 Create Date: 2026-07-01 06:11:31.737512
 
 """
-from typing import Sequence, Union
+from typing import Sequence
+from typing import Union
 
-from alembic import op
 import sqlalchemy as sa
 from sqlalchemy.dialects import mysql
+
+from alembic import op
 
 # revision identifiers, used by Alembic.
 revision: str = 'a73f6eb63936'

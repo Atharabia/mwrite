@@ -1,10 +1,5 @@
 import os
 
-os.environ.setdefault("DATABASE_URL", "sqlite+aiosqlite:///./test.db")
-os.environ.setdefault("JWT_SECRET_KEY", "test-secret-key-32-chars-minimum!")
-os.environ.setdefault("ADMIN_EMAIL", "admin@test.com")
-os.environ.setdefault("ADMIN_PASSWORD", "TestPass123!")
-
 import pytest_asyncio
 from httpx import ASGITransport
 from httpx import AsyncClient
@@ -12,10 +7,14 @@ from sqlalchemy.ext.asyncio import create_async_engine
 from sqlmodel import SQLModel
 from sqlmodel.ext.asyncio.session import AsyncSession
 
+os.environ.setdefault("DATABASE_URL", "sqlite+aiosqlite:///./test.db")
+os.environ.setdefault("JWT_SECRET_KEY", "test-secret-key")
+os.environ.setdefault("ADMIN_EMAIL", "admin@example.com")
+os.environ.setdefault("ADMIN_PASSWORD", "admin")
+TEST_DB_URL = "sqlite+aiosqlite:///./test.db"
+
 from app import app as fastapi_app
 from app.dependencies.admin_auth import WriterAuth
-
-TEST_DB_URL = "sqlite+aiosqlite:///./test.db"
 
 
 @pytest_asyncio.fixture(scope="session")

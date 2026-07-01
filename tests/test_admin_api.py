@@ -4,7 +4,8 @@ import pytest_asyncio
 from app.models.enums import Role
 from tests.conftest import make_token
 
-_non_admin_token = lambda: make_token("user@test.com", [])
+
+def _non_admin_token(): return make_token("user@test.com", [])
 
 
 @pytest_asyncio.fixture(autouse=True, scope="module")

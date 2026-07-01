@@ -5,11 +5,12 @@ Revises:
 Create Date: 2026-07-01 00:13:33.746530
 
 """
-from typing import Sequence, Union
+from typing import Sequence
+from typing import Union
 
 import sqlalchemy as sa
-from alembic import op
 
+from alembic import op
 
 revision: str = '446f4f176550'
 down_revision: Union[str, Sequence[str], None] = None

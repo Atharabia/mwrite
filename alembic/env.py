@@ -15,7 +15,6 @@ from app.database import WriterRoleTable
 from app.database import WriterTable
 from app.settings import Settings
 
-
 all_tables = [
     WriterTable,
     BlogTable,

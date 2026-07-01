@@ -49,8 +49,14 @@ dev = [
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "session"
 
+[tool.isort]
+skip = ["tests/conftest.py"]
+
 [tool.flake8]
 extend-immutable-calls = ["typer.Option", "Depends"]
+per-file-ignores = [
+    "tests/conftest.py:E402",
+]
 
 [tool.mypy]
 plugins = ["pydantic.mypy"]
