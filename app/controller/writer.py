@@ -1,5 +1,5 @@
-import bcrypt
 from sqlalchemy import delete as sa_delete
+from sqlalchemy.exc import IntegrityError
 from sqlmodel import col
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
@@ -46,6 +46,18 @@ class WriterController:
 
     @staticmethod
     @session
+    async def get_super_admin_ids(db: AsyncSession) -> set[int]:
+        statement = (
+            select(WriterRoleTable.writer_id)
+            .join(RoleTable, RoleTable.id == WriterRoleTable.role_id)
+            .where(RoleTable.name == Role.super_admin)
+        )
+
+        result = await db.exec(statement)
+        return set(result.all())
+
+    @staticmethod
+    @session
     async def list_writers(db: AsyncSession) -> list[WriterWithRolesDTO]:
         writers_result = await db.exec(select(WriterTable))
         writers = writers_result.all()
@@ -80,21 +92,17 @@ class WriterController:
         db: AsyncSession,
         *,
         email: str,
-        plain_password: str,
+        hashed_password: str,
         role_names: list[str],
     ) -> WriterWithRolesDTO:
-        existing = await db.exec(select(WriterTable)
-                                 .where(WriterTable.email == email))
-
-        if existing.first() is not None:
-            raise ValueError("EMAIL_ALREADY_EXISTS")
-
-        hashed = bcrypt.hashpw(plain_password.encode(),
-                               bcrypt.gensalt()).decode()
-
-        writer = WriterTable(email=email, password=hashed)
+        writer = WriterTable(email=email, password=hashed_password)
         db.add(writer)
-        await db.flush()
+
+        try:
+            await db.flush()
+        except IntegrityError as exc:
+            await db.rollback()
+            raise ValueError("EMAIL_ALREADY_EXISTS") from exc
 
         roles_result = await db.exec(
             select(RoleTable)
@@ -120,7 +128,7 @@ class WriterController:
         *,
         writer_id: int,
         email: str | None = None,
-        plain_password: str | None = None,
+        hashed_password: str | None = None,
         role_names: list[str] | None = None,
     ) -> WriterWithRolesDTO | None:
         result = await db.exec(select(WriterTable)
@@ -131,33 +139,12 @@ class WriterController:
             return None
 
         if email is not None:
-            dup = await db.exec(
-                select(WriterTable).where(
-                    WriterTable.email == email,
-                    WriterTable.id != writer_id,
-                ))
-            if dup.first() is not None:
-                raise ValueError("EMAIL_ALREADY_EXISTS")
             writer.email = email
 
-        if plain_password is not None:
-            writer.password = bcrypt.hashpw(plain_password.encode(),
-                                            bcrypt.gensalt()).decode()
+        if hashed_password is not None:
+            writer.password = hashed_password
 
         if role_names is not None:
-            if Role.super_admin not in role_names:
-                super_admin_role = (await db.exec(
-                    select(RoleTable).where(RoleTable.name == Role.super_admin)
-                )).first()
-                if super_admin_role:
-                    super_admin_writers = (await db.exec(
-                        select(WriterRoleTable)
-                        .where(WriterRoleTable.role_id == super_admin_role.id)
-                    )).all()
-                    ids = {wr.writer_id for wr in super_admin_writers}
-                    if len(ids) == 1 and writer_id in ids:
-                        raise ValueError("CANNOT_REMOVE_LAST_SUPER_ADMIN")
-
             await db.exec(sa_delete(WriterRoleTable)
                           .where(WriterRoleTable.writer_id == writer_id))
 
@@ -169,7 +156,13 @@ class WriterController:
                 db.add(WriterRoleTable(writer_id=writer_id, role_id=role.id))
 
         db.add(writer)
-        await db.commit()
+
+        try:
+            await db.commit()
+        except IntegrityError as exc:
+            await db.rollback()
+            raise ValueError("EMAIL_ALREADY_EXISTS") from exc
+
         await db.refresh(writer)
 
         final_roles = role_names if role_names is not None else \
@@ -186,20 +179,6 @@ class WriterController:
         *,
         writer_id: int,
     ) -> None:
-        super_admin_role = (await db.exec(
-            select(RoleTable).where(RoleTable.name == Role.super_admin)
-        )).first()
-
-        if super_admin_role:
-            super_admin_writers = (await db.exec(
-                select(WriterRoleTable)
-                .where(WriterRoleTable.role_id == super_admin_role.id)
-            )).all()
-
-            super_admin_ids = {wr.writer_id for wr in super_admin_writers}
-            if len(super_admin_ids) == 1 and writer_id in super_admin_ids:
-                raise ValueError("CANNOT_DELETE_LAST_SUPER_ADMIN")
-
         await db.exec(
             sa_delete(WriterRoleTable)
             .where(WriterRoleTable.writer_id == writer_id))

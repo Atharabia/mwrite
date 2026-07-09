@@ -35,7 +35,9 @@ async def create_admin(body: AdminCreate) -> Response:
     try:
         writer = await WriterController.create_writer(
             email=body.email,
-            plain_password=body.password.get_secret_value(),
+            hashed_password=WriterAuth.hash_password(
+                body.password.get_secret_value()
+            ),
             role_names=[r.value for r in body.roles],
         )
     except ValueError as e:
@@ -54,14 +56,20 @@ async def update_admin(
     writer_id: int,
     body: AdminUpdate,
 ) -> Response:
-    plain_password = (
-        body.password.get_secret_value() if body.password else None
+    hashed_password = (
+        WriterAuth.hash_password(body.password.get_secret_value())
+        if body.password else None
     )
     try:
+        if body.roles is not None and Role.super_admin not in body.roles:
+            super_admin_ids = await WriterController.get_super_admin_ids()
+            if super_admin_ids == {writer_id}:
+                raise ValueError("CANNOT_REMOVE_LAST_SUPER_ADMIN")
+
         writer = await WriterController.update_writer(
             writer_id=writer_id,
             email=body.email,
-            plain_password=plain_password,
+            hashed_password=hashed_password,
             role_names=(
                 [r.value for r in body.roles]
                 if body.roles is not None else None
@@ -90,6 +98,10 @@ async def delete_admin(
     try:
         if writer_id == current_writer.id:
             raise ValueError("CANNOT_DELETE_SELF")
+
+        super_admin_ids = await WriterController.get_super_admin_ids()
+        if super_admin_ids == {writer_id}:
+            raise ValueError("CANNOT_DELETE_LAST_SUPER_ADMIN")
 
         await WriterController.delete_writer(writer_id=writer_id)
     except ValueError as e:

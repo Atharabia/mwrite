@@ -21,6 +21,10 @@ class WriterAuth:
         return bcrypt.checkpw(plain.encode(), hashed.encode())
 
     @staticmethod
+    def hash_password(plain: str) -> str:
+        return bcrypt.hashpw(plain.encode(), bcrypt.gensalt()).decode()
+
+    @staticmethod
     def create_token(data: dict, expires_minutes: int) -> str:
         payload = data.copy()
         payload["exp"] = (
