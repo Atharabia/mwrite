@@ -1,4 +1,5 @@
 import bcrypt
+from sqlalchemy.exc import IntegrityError
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
@@ -14,8 +15,14 @@ async def _seed_roles(db: AsyncSession) -> None:
     result = await db.exec(select(RoleTable.name))
     existing = set(result.all())
     for role in Role:
-        if role not in existing:
-            db.add(RoleTable(name=role))
+        if role in existing:
+            continue
+        # savepoint absorbs the duplicate-key race with another replica
+        try:
+            async with db.begin_nested():
+                db.add(RoleTable(name=role))
+        except IntegrityError:
+            pass
 
 
 async def _create_default_writer(db: AsyncSession) -> None:
@@ -31,8 +38,16 @@ async def _create_default_writer(db: AsyncSession) -> None:
             Settings.ADMIN_PASSWORD.encode(), bcrypt.gensalt()
         ).decode()
         writer = WriterTable(email=Settings.ADMIN_EMAIL, password=hashed)
-        db.add(writer)
-        await db.flush()
+        try:
+            async with db.begin_nested():
+                db.add(writer)
+        except IntegrityError:
+            result = await db.exec(
+                select(WriterTable)
+                .where(WriterTable.email == Settings.ADMIN_EMAIL))
+            writer = result.first()
+            if writer is None:
+                return
 
     super_admin_role = await db.exec(
         select(RoleTable).where(RoleTable.name == Role.super_admin))
@@ -46,7 +61,11 @@ async def _create_default_writer(db: AsyncSession) -> None:
             WriterRoleTable.role_id == role.id,
         ))
     if existing_assignment.first() is None:
-        db.add(WriterRoleTable(writer_id=writer.id, role_id=role.id))
+        try:
+            async with db.begin_nested():
+                db.add(WriterRoleTable(writer_id=writer.id, role_id=role.id))
+        except IntegrityError:
+            pass
 
 
 async def run_init_scripts() -> None:
