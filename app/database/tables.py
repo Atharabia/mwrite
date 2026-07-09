@@ -51,7 +51,9 @@ class ImageTable(SQLModel, table=True):
 
     id: str = Field(default_factory=lambda: str(uuid.uuid4()),
                     primary_key=True)
-    data: bytes = Field(sa_column=Column(LargeBinary(length=16_777_215)))
+    data: bytes = Field(
+        sa_column=Column(LargeBinary(length=16_777_215), nullable=False),
+    )
     mime_type: str = Field()
 
     created_at: datetime = Field(default_factory=utc_now)
