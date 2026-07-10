@@ -45,7 +45,6 @@ class WriterAuth:
                 algorithms=[Settings.JWT_ALGORITHM],
             )
             email: str | None = payload.get("sub")
-            roles = payload.get("roles", [])
             expiration: int | None = payload.get("exp")
 
             if not email:
@@ -65,9 +64,7 @@ class WriterAuth:
         if writer is None:
             return None, "INVALID_TOKEN"
 
-        return WriterPublic(
-            id=writer.id, email=writer.email, roles=roles
-        ), None
+        return WriterPublic(id=writer.id, email=writer.email), None
 
     @staticmethod
     async def require_writer(

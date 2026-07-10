@@ -9,10 +9,3 @@ class WriterDTO(BaseModel):
     password: str
     created_at: datetime
     updated_at: datetime
-
-
-class WriterWithRolesDTO(BaseModel):
-    id: int
-    email: str
-    roles: list[str]
-    created_at: datetime

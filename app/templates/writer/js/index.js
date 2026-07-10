@@ -2,7 +2,7 @@ async function loadDashboard() {
     let blogs = [];
 
     try {
-        const res = await fetch("/writer/get-blogs");
+        const res = await fetch("/api/writer/get-blogs");
 
         const data = await res.json();
         if (data.status === "SUCCESS" && Array.isArray(data.data)) {
@@ -82,7 +82,7 @@ document.getElementById("newPostBtn")?.addEventListener("click", () => {
 });
 
 document.getElementById("logoutBtn")?.addEventListener("click", async () => {
-    await fetch("/writer/logout", { method: "POST" });
+    await fetch("/api/writer/logout", { method: "POST" });
     window.location.replace("/writer/login");
 });
 

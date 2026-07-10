@@ -19,7 +19,6 @@
         </svg>
         Dashboard
       </a>
-      {% if "super_admin" in writer.roles %}
       <a href="/writer/admins" class="nav-item active">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
@@ -27,7 +26,6 @@
         </svg>
         Admins
       </a>
-      {% endif %}
     </nav>
     <div class="sidebar-footer">
       <button class="btn-logout" id="logoutBtn">
@@ -47,21 +45,18 @@
       <button class="btn-primary" id="addAdminBtn">+ Add Admin</button>
     </header>
 
-    <p class="role-note">Role changes take effect on the user's next login.</p>
-
     <div id="toast" class="toast hidden"></div>
 
     <table class="posts-table">
       <thead>
         <tr>
           <th>Email</th>
-          <th>Roles</th>
           <th>Created</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody id="adminsBody">
-        <tr><td colspan="4"><p class="empty-state">Loading…</p></td></tr>
+        <tr><td colspan="3"><p class="empty-state">Loading…</p></td></tr>
       </tbody>
     </table>
   </main>
@@ -80,12 +75,6 @@
         <div class="form-group">
           <label for="adminPassword">Password <span id="passwordHint">(leave blank to keep current)</span></label>
           <input type="password" id="adminPassword" />
-        </div>
-        <div class="form-group">
-          <label>Roles</label>
-          <div class="roles-checkboxes">
-            <label><input type="checkbox" name="role" value="super_admin" /> super_admin</label>
-          </div>
         </div>
         <div class="modal-actions">
           <button type="button" class="btn-secondary" id="cancelBtn">Cancel</button>

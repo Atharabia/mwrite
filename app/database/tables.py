@@ -16,20 +16,8 @@ def utc_now() -> datetime:
     return datetime.now(timezone.utc)
 
 
-class RoleTable(SQLModel, table=True):
-    __tablename__ = "role"
-    id: int = Field(default=None, primary_key=True)
-    name: str = Field(unique=True)
-
-
-class WriterRoleTable(SQLModel, table=True):
-    __tablename__ = "writer_role"
-    writer_id: int = Field(foreign_key="writer.id", primary_key=True)
-    role_id: int = Field(foreign_key="role.id", primary_key=True)
-
-
 class SettingTable(SQLModel, table=True):
-    __tablename__ = "setting"
+    __tablename__ = "settings"
     key: str = Field(primary_key=True)
     value: str = Field()
 

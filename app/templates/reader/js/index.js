@@ -4,7 +4,7 @@ let totalPages = 1;
 
 
 async function loadPage(page) {
-    const res = await fetch(`/get-blogs?page=${page}&size=${PAGE_SIZE}`);
+    const res = await fetch(`/api/reader/get-blogs?page=${page}&size=${PAGE_SIZE}`);
     const json = await res.json();
 
     if (json.status !== "SUCCESS") return;

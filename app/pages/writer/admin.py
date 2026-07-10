@@ -9,7 +9,6 @@ from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 
 from app.dependencies import WriterAuth
-from app.models.enums import Role
 from app.models.schemas import WriterPublic
 from app.settings import Settings
 
@@ -27,8 +26,6 @@ async def admins_page(
 ) -> HTMLResponse | RedirectResponse:
     if isinstance(writer, RedirectResponse):
         return writer
-    if Role.super_admin not in writer.roles:
-        return RedirectResponse(url="/writer", status_code=302)
     return templates.TemplateResponse("writer/html/admins.html",
                                       {"request": request, "writer": writer,
                                        "settings": Settings})

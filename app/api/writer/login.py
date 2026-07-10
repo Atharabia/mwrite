@@ -23,9 +23,7 @@ async def login(request: Request, body: LoginRequest,
     if not writer or not WriterAuth.verify_password(password, writer.password):
         return Response(status=Status.FAILURE, code="INVALID_LOGIN")
 
-    roles = await WriterController.get_writer_roles(writer_id=writer.id)
-
-    token_data = {"sub": writer.email, "roles": roles}
+    token_data = {"sub": writer.email}
 
     access_token = WriterAuth.create_token(
         token_data, Settings.JWT_ACCESS_TOKEN_EXPIRE_MINUTES
