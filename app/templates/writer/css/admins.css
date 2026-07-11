@@ -1,0 +1,117 @@
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.hidden { display: none; }
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modal-box {
+  position: relative;
+  background: #0d0d0d;
+  border: 1px solid #1a1a1a;
+  border-radius: 10px;
+  padding: 1.75rem;
+  width: 420px;
+  max-width: 95vw;
+}
+
+.modal-box h3 {
+  margin: 0 0 1.25rem;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  font-size: 0.8125rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.form-group input[type="email"],
+.form-group input[type="password"] {
+  background: #000;
+  border: 1px solid #1a1a1a;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.form-group input:focus {
+  border-color: #CADCFA;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid #1a1a1a;
+  border-radius: 6px;
+  color: #666;
+  cursor: pointer;
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.btn-secondary:hover {
+  border-color: #2a2a2a;
+  color: #888;
+}
+
+.btn-delete {
+  background: transparent;
+  border: none;
+  color: #f44336;
+  cursor: pointer;
+  font-size: 0.8125rem;
+  padding: 0.25rem 0.5rem;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.btn-delete:hover {
+  opacity: 0.8;
+}
+
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: #0d0d0d;
+  border: 1px solid #1a1a1a;
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+  z-index: 100;
+  transition: opacity 0.2s;
+}
+
+.toast.success { border-color: #4caf50; color: #4caf50; }
+.toast.error { border-color: #f44336; color: #f44336; }
+.toast.hidden { display: none; }

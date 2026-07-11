@@ -4,7 +4,7 @@ from . import blog
 
 
 class RoutersRegistry:
-    router = APIRouter()
+    router = APIRouter(prefix="/api/reader")
 
     @classmethod
     def register_routers(cls) -> APIRouter:

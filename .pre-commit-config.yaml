@@ -27,6 +27,7 @@ repos:
             language: system
             args: ["--in-place", "--aggressive", "--aggressive"]
             types: [python]
+            exclude: ^tests/conftest\.py$
 
           - id: flake8
             name: Lint Python code (flake8)

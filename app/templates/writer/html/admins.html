@@ -3,26 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mwrite — Dashboard</title>
+  <title>Admins — {{ settings.APP_NAME }}</title>
   <link rel="stylesheet" href="/static/writer/css/index.css" />
+  <link rel="stylesheet" href="/static/writer/css/admins.css" />
 </head>
 <body>
 
   <aside class="sidebar">
-    <div class="brand">
-      <h1>Mwrite</h1>
-      <p>Admin</p>
-    </div>
-
+    <div class="brand"><h1>{{ settings.APP_NAME }}</h1><p>Admin</p></div>
     <nav>
-      <a href="/writer" class="nav-item active">
+      <a href="/writer" class="nav-item">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
           <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
         </svg>
         Dashboard
       </a>
-      <a href="/writer/admins" class="nav-item">
+      <a href="/writer/admins" class="nav-item active">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
           <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
@@ -30,7 +27,6 @@
         Admins
       </a>
     </nav>
-
     <div class="sidebar-footer">
       <button class="btn-logout" id="logoutBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -45,52 +41,49 @@
 
   <main class="main">
     <header class="page-header">
-      <div>
-        <h2>Dashboard</h2>
-        <p class="subtitle">Overview</p>
-      </div>
-      <button class="btn-primary" id="newPostBtn">+ New Post</button>
+      <div><h2>Admins</h2><p class="subtitle">Manage admin users</p></div>
+      <button class="btn-primary" id="addAdminBtn">+ Add Admin</button>
     </header>
 
-    <section class="stats-grid">
-      <div class="stat-card">
-        <p class="stat-label">Total Views</p>
-        <p class="stat-value accent" id="statViews">—</p>
-      </div>
-      <div class="stat-card">
-        <p class="stat-label">Total Posts</p>
-        <p class="stat-value" id="statPosts">—</p>
-      </div>
-      <div class="stat-card">
-        <p class="stat-label">Published</p>
-        <p class="stat-value" id="statPublished">—</p>
-      </div>
-      <div class="stat-card">
-        <p class="stat-label">Drafts</p>
-        <p class="stat-value" id="statDrafts">—</p>
-      </div>
-    </section>
+    <div id="toast" class="toast hidden"></div>
 
-    <div class="section-header">
-      <h3>Recent Posts</h3>
-    </div>
     <table class="posts-table">
       <thead>
         <tr>
-          <th>Title</th>
-          <th>Status</th>
-          <th>Views</th>
-          <th>Date</th>
+          <th>Email</th>
+          <th>Created</th>
+          <th>Actions</th>
         </tr>
       </thead>
-      <tbody id="postsBody">
-        <tr>
-          <td colspan="4"><p class="empty-state">Loading…</p></td>
-        </tr>
+      <tbody id="adminsBody">
+        <tr><td colspan="3"><p class="empty-state">Loading…</p></td></tr>
       </tbody>
     </table>
   </main>
 
-  <script src="/static/writer/js/index.js"></script>
+  <!-- Add/Edit modal -->
+  <div id="modal" class="modal hidden">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-box">
+      <h3 id="modalTitle">Add Admin</h3>
+      <form id="adminForm">
+        <input type="hidden" id="editId" />
+        <div class="form-group">
+          <label for="adminEmail">Email</label>
+          <input type="email" id="adminEmail" required />
+        </div>
+        <div class="form-group">
+          <label for="adminPassword">Password <span id="passwordHint">(leave blank to keep current)</span></label>
+          <input type="password" id="adminPassword" />
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="cancelBtn">Cancel</button>
+          <button type="submit" class="btn-primary" id="saveBtn">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/static/writer/js/admins.js"></script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 import bcrypt
+from sqlalchemy.exc import IntegrityError
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
@@ -13,12 +14,18 @@ async def _create_default_writer(db: AsyncSession) -> None:
 
     result = await db.exec(
         select(WriterTable).where(WriterTable.email == Settings.ADMIN_EMAIL))
-    if result.first() is not None:
-        return
+    writer = result.first()
 
-    hashed = bcrypt.hashpw(Settings.ADMIN_PASSWORD.encode(),
-                           bcrypt.gensalt()).decode()
-    db.add(WriterTable(email=Settings.ADMIN_EMAIL, password=hashed))
+    if writer is None:
+        hashed = bcrypt.hashpw(
+            Settings.ADMIN_PASSWORD.encode(), bcrypt.gensalt()
+        ).decode()
+        writer = WriterTable(email=Settings.ADMIN_EMAIL, password=hashed)
+        try:
+            async with db.begin_nested():
+                db.add(writer)
+        except IntegrityError:
+            pass
 
 
 async def run_init_scripts() -> None:

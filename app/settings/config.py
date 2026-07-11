@@ -19,7 +19,7 @@ class Config(BaseSettings):
 
     JWT_SECRET_KEY: str = Field(min_length=1)
     JWT_ALGORITHM: str = "HS256"
-    JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+    JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = 15
     JWT_REFRESH_TOKEN_EXPIRE_MINUTES: int = 10080
 
     ADMIN_EMAIL: str = Field(min_length=1)

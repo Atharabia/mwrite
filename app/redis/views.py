@@ -38,11 +38,14 @@ async def _flush() -> None:
             if not flushed:
                 continue
             blog_id = int(key.split(":")[-1])
+
+            condition = BlogTable.id == blog_id
             await db.exec(
                 update(BlogTable)
-                .where(BlogTable.id == blog_id)
+                .where(condition)
                 .values(views=BlogTable.views + int(flushed))
             )
+
         await db.commit()
 
 
