@@ -27,7 +27,9 @@ __all__ = [
 P = ParamSpec("P")
 T = TypeVar("T")
 engine: AsyncEngine = create_async_engine(Settings.DATABASE_URL,
-                                          echo=Settings.APP_DEBUG)
+                                          echo=Settings.APP_DEBUG,
+                                          pool_pre_ping=True,
+                                          pool_recycle=1800)
 
 
 def session(
