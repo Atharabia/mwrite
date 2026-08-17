@@ -1,0 +1,21 @@
+name: Deploy
+
+on:
+    push:
+        branches: [main]
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: SSH and deploy
+              # The Lightsail authorized_keys entry for this key pins a forced
+              # command (git pull + rebuild + recreate app), so `script` below
+              # is never actually executed server-side — kept for readability.
+              uses: appleboy/ssh-action@v1
+              with:
+                  host: ${{ secrets.LIGHTSAIL_HOST }}
+                  username: ${{ secrets.LIGHTSAIL_USER }}
+                  key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
+                  script: cd ~/mwrite && git pull && sudo docker compose build app && sudo docker compose up -d app
