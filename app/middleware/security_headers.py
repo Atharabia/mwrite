@@ -1,6 +1,7 @@
 from fastapi import Request
 from fastapi.responses import Response
 
+
 _CSP = (
     "default-src 'self'; "
     "script-src 'self' https://cdn.jsdelivr.net; "
@@ -25,11 +26,9 @@ async def security_headers(request: Request, call_next: object) -> Response:
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["X-Frame-Options"] = "DENY"
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
-    
- 
-    if request.url.path.startswith("/blog/"):
-       response.headers["Content-Security-Policy"] = _CSP_READER_POST 
-    else:
-        response.headers["Content-Security-Policy"] = _CSP  
 
+    if request.url.path.startswith("/blog/"):
+        response.headers["Content-Security-Policy"] = _CSP_READER_POST
+    else:
+        response.headers["Content-Security-Policy"] = _CSP
     return response
