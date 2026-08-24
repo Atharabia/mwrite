@@ -1,7 +1,6 @@
 from fastapi import Request
 from fastapi.responses import Response
 
-
 _CSP = (
     "default-src 'self'; "
     "script-src 'self' https://cdn.jsdelivr.net; "
