@@ -1,3 +1,5 @@
+let embedController;
+
 const quill = new Quill("#editor", {
   theme: "snow",
   placeholder: "Write something…",
@@ -9,6 +11,7 @@ const quill = new Quill("#editor", {
         ["blockquote", "code-block"],
         [{ list: "ordered" }, { list: "bullet" }],
         ["link", "image"],
+        ["html-embed"],
         ["clean"],
       ],
       handlers: {
@@ -20,10 +23,13 @@ const quill = new Quill("#editor", {
             quill.setSelection(range.index + 1);
           }
         },
+        "html-embed": () => embedController.openForInsert(),
       },
     },
   },
 });
+
+embedController = MwriteHtmlEmbed.init(quill);
 
 async function uploadImage(dataUrl) {
   const res = await fetch("/api/writer/upload-image", {
@@ -76,7 +82,7 @@ async function save(status) {
   }
 
   const delta = JSON.stringify(quill.getContents());
-  const html  = document.querySelector(".ql-editor").innerHTML;
+  const html  = MwriteHtmlEmbed.serializeHtml(document.querySelector(".ql-editor").innerHTML);
   const text  = quill.getText().trim();
 
   const btn = status === "published"
