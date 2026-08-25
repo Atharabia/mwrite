@@ -12,11 +12,15 @@ _CSP = (
 
 _CSP_READER_POST = (
     "default-src 'self'; "
-    "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
-    "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
-    "img-src 'self' data: blob:; "
-    "font-src 'self' https://cdn.jsdelivr.net; "
-    "connect-src 'self'"
+    "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net "
+    "https://cdnjs.cloudflare.com https://unpkg.com "
+    "https://cdn.plot.ly https://d3js.org; "
+    "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net "
+    "https://cdnjs.cloudflare.com https://fonts.googleapis.com; "
+    "img-src 'self' data: blob: https:; "
+    "font-src 'self' https://cdn.jsdelivr.net "
+    "https://cdnjs.cloudflare.com https://fonts.gstatic.com; "
+    "connect-src 'self' https:"
 )
 
 

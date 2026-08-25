@@ -76,6 +76,7 @@
       function open(initialHtml, index) {
         textarea.value = initialHtml || "";
         editIndex = index ?? null;
+        saveBtn.textContent = editIndex !== null ? "Update" : "Insert";
         overlay.classList.add("open");
         textarea.focus();
       }
@@ -107,6 +108,9 @@
       cancelBtn.addEventListener("click", close);
       overlay.addEventListener("click", (e) => {
         if (e.target === overlay) close();
+      });
+      overlay.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") close();
       });
 
       quill.root.addEventListener("click", (e) => {
