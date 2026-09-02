@@ -1,6 +1,13 @@
-# Mwrite
+<p align="center">
+<img width="150" height="150" alt="Atharabia Icons" src="https://github.com/user-attachments/assets/c8d269d2-9b8d-4f49-b061-3f249b014cc0" />
 
-A simple blog app
+<h1 align="center">MWrite</h1>
+
+<p align="center">
+<em>A simple blog app</em>
+</p>
+
+___
 
 ## Installation
 
