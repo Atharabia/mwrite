@@ -10,9 +10,6 @@ jobs:
 
         steps:
             - name: SSH and deploy
-              # The Lightsail authorized_keys entry for this key pins a forced
-              # command (git pull + rebuild + recreate app), so `script` below
-              # is never actually executed server-side — kept for readability.
               uses: appleboy/ssh-action@v1
               with:
                   host: ${{ secrets.LIGHTSAIL_HOST }}
