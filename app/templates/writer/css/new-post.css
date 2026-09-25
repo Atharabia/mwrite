@@ -157,12 +157,39 @@ body {
   margin: 16px 0;
 }
 
-.ql-editor pre {
+.ql-editor pre,
+.ql-editor .ql-code-block-container {
   background: #0d0d0d;
   border: 1px solid #1a1a1a;
   border-radius: 8px;
   color: #CADCFA;
   padding: 16px;
+}
+
+.ql-editor .ql-code-block-container {
+  position: relative;
+  padding-top: 34px;
+}
+
+.ql-editor .ql-code-block {
+  background: transparent;
+}
+
+.ql-code-block-container select.ql-ui {
+  top: 8px;
+  right: 8px;
+  background: #161616;
+  color: #888;
+  border: 1px solid #2a2a2a;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+}
+
+.ql-code-block-container select.ql-ui:hover,
+.ql-code-block-container select.ql-ui:focus {
+  color: #CADCFA;
+  border-color: #444;
 }
 
 .ql-editor a {

@@ -6,6 +6,9 @@ up:
 down:
 	docker compose down
 
+clean:
+	docker compose down -v
+
 migrate:
 	docker compose exec app alembic upgrade head
 
