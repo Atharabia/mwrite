@@ -13,7 +13,7 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 18px 48px;
-  border-bottom: 1px solid #1a1a1a;
+  border-bottom: 1px solid var(--border);
   flex-shrink: 0;
 }
 
@@ -23,7 +23,7 @@ body {
   gap: 6px;
   font-size: 0.8rem;
   font-weight: 500;
-  color: #555;
+  color: var(--muted);
   text-decoration: none;
   letter-spacing: 0.04em;
   transition: color 0.15s;
@@ -35,7 +35,7 @@ body {
 }
 
 .back-link:hover {
-  color: #ccc;
+  color: var(--white);
 }
 
 .editor-actions {
@@ -46,7 +46,7 @@ body {
 
 .save-status {
   font-size: 0.78rem;
-  color: #444;
+  color: var(--muted-2);
   margin-right: 4px;
   transition: color 0.2s;
 }
@@ -57,9 +57,10 @@ body {
 .btn-ghost {
   padding: 9px 16px;
   background: transparent;
-  border: 1px solid #222;
-  border-radius: 8px;
-  color: #666;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--muted);
+  font-family: inherit;
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
@@ -67,8 +68,8 @@ body {
 }
 
 .btn-ghost:hover {
-  color: #ccc;
-  border-color: #444;
+  color: var(--white);
+  border-color: var(--white);
 }
 
 .btn-ghost:disabled,
@@ -89,19 +90,19 @@ body {
   width: 100%;
   background: transparent;
   border: none;
-  border-bottom: 1px solid #1a1a1a;
+  border-bottom: 1px solid var(--border);
   outline: none;
-  color: #fff;
+  color: var(--white);
   font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: -0.5px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   padding: 28px 0 20px;
   font-family: inherit;
   flex-shrink: 0;
 }
 
 .title-input::placeholder {
-  color: #2a2a2a;
+  color: var(--muted-2);
 }
 
 #editor {
@@ -114,7 +115,7 @@ body {
 
 .ql-toolbar.ql-snow {
   border: none !important;
-  border-bottom: 1px solid #1a1a1a !important;
+  border-bottom: 1px solid var(--border) !important;
   padding: 10px 0 !important;
   flex-shrink: 0;
 }
@@ -123,11 +124,11 @@ body {
   border: none !important;
   flex: 1;
   overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 .ql-editor {
-  color: #ccc;
+  color: rgba(255, 255, 255, 0.8);
   padding: 28px 0 48px;
   font-size: 1rem;
   line-height: 1.8;
@@ -136,7 +137,7 @@ body {
 }
 
 .ql-editor.ql-blank::before {
-  color: #2a2a2a;
+  color: var(--muted-2);
   font-style: normal;
   left: 0;
 }
@@ -144,25 +145,25 @@ body {
 .ql-editor h1,
 .ql-editor h2,
 .ql-editor h3 {
-  color: #fff;
-  font-weight: 700;
-  letter-spacing: -0.3px;
+  color: var(--white);
+  font-weight: 600;
+  letter-spacing: -0.02em;
   margin-bottom: 8px;
 }
 
 .ql-editor blockquote {
-  border-left: 3px solid #CADCFA;
+  border-left: 3px solid var(--white);
   padding-left: 16px;
-  color: #888;
+  color: var(--muted);
   margin: 16px 0;
 }
 
 .ql-editor pre,
 .ql-editor .ql-code-block-container {
-  background: #0d0d0d;
-  border: 1px solid #1a1a1a;
-  border-radius: 8px;
-  color: #CADCFA;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--white);
   padding: 16px;
 }
 
@@ -178,9 +179,9 @@ body {
 .ql-code-block-container select.ql-ui {
   top: 8px;
   right: 8px;
-  background: #161616;
-  color: #888;
-  border: 1px solid #2a2a2a;
+  background: var(--black);
+  color: var(--muted);
+  border: 1px solid var(--border);
   border-radius: 4px;
   font-size: 0.75rem;
   padding: 2px 6px;
@@ -188,38 +189,39 @@ body {
 
 .ql-code-block-container select.ql-ui:hover,
 .ql-code-block-container select.ql-ui:focus {
-  color: #CADCFA;
-  border-color: #444;
+  color: var(--white);
+  border-color: var(--white);
 }
 
 .ql-editor a {
-  color: #CADCFA;
+  color: var(--white);
+  text-decoration: underline;
 }
 
-.ql-snow .ql-stroke            { stroke: #555 !important; }
-.ql-snow .ql-fill              { fill:   #555 !important; }
-.ql-snow .ql-picker-label      { color:  #555 !important; }
-.ql-snow .ql-picker-label::before { color: #555 !important; }
+.ql-snow .ql-stroke            { stroke: var(--muted) !important; }
+.ql-snow .ql-fill              { fill:   var(--muted) !important; }
+.ql-snow .ql-picker-label      { color:  var(--muted) !important; }
+.ql-snow .ql-picker-label::before { color: var(--muted) !important; }
 
 .ql-snow button:hover .ql-stroke,
-.ql-snow .ql-picker-label:hover .ql-stroke { stroke: #CADCFA !important; }
+.ql-snow .ql-picker-label:hover .ql-stroke { stroke: var(--white) !important; }
 .ql-snow button:hover .ql-fill,
-.ql-snow .ql-picker-label:hover .ql-fill   { fill:   #CADCFA !important; }
+.ql-snow .ql-picker-label:hover .ql-fill   { fill:   var(--white) !important; }
 .ql-snow button:hover,
-.ql-snow .ql-picker-label:hover            { color:  #CADCFA !important; }
+.ql-snow .ql-picker-label:hover            { color:  var(--white) !important; }
 
-.ql-snow button.ql-active .ql-stroke       { stroke: #CADCFA !important; }
-.ql-snow button.ql-active .ql-fill         { fill:   #CADCFA !important; }
-.ql-snow button.ql-active                  { color:  #CADCFA !important; }
+.ql-snow button.ql-active .ql-stroke       { stroke: var(--white) !important; }
+.ql-snow button.ql-active .ql-fill         { fill:   var(--white) !important; }
+.ql-snow button.ql-active                  { color:  var(--white) !important; }
 
 .ql-snow .ql-picker-options {
-  background: #0d0d0d !important;
-  border: 1px solid #222 !important;
-  border-radius: 8px;
+  background: var(--black) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius);
 }
 
-.ql-snow .ql-picker-item       { color: #666 !important; }
-.ql-snow .ql-picker-item:hover { color: #CADCFA !important; }
+.ql-snow .ql-picker-item       { color: var(--muted) !important; }
+.ql-snow .ql-picker-item:hover { color: var(--white) !important; }
 
 .html-embed-block {
   display: flex;
@@ -228,9 +230,9 @@ body {
   gap: 12px;
   margin: 12px 0;
   padding: 14px 16px;
-  background: #0d0d0d;
-  border: 1px dashed #333;
-  border-radius: 8px;
+  background: transparent;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
   user-select: none;
 }
 
@@ -238,7 +240,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #888;
+  color: var(--muted);
   font-size: 0.85rem;
   font-weight: 500;
 }
@@ -246,7 +248,7 @@ body {
 .html-embed-label svg {
   width: 16px;
   height: 16px;
-  color: #CADCFA;
+  color: var(--white);
   flex-shrink: 0;
 }
 
@@ -259,9 +261,10 @@ body {
 .html-embed-actions button {
   padding: 5px 12px;
   background: transparent;
-  border: 1px solid #222;
+  border: 1px solid var(--border);
   border-radius: 6px;
-  color: #666;
+  color: var(--muted);
+  font-family: inherit;
   font-size: 0.78rem;
   font-weight: 500;
   cursor: pointer;
@@ -269,13 +272,13 @@ body {
 }
 
 .html-embed-actions button:hover {
-  color: #CADCFA;
-  border-color: #444;
+  color: var(--white);
+  border-color: var(--white);
 }
 
 .html-embed-actions .html-embed-remove:hover {
   color: #e05c5c;
-  border-color: #442222;
+  border-color: #e05c5c66;
 }
 
 .html-embed-modal-overlay {
@@ -294,20 +297,21 @@ body {
 
 .html-embed-modal {
   width: min(640px, 90vw);
-  background: #111;
-  border: 1px solid #222;
-  border-radius: 10px;
+  background: var(--black);
+  border: 1px solid var(--white);
+  border-radius: var(--radius);
   padding: 24px;
 }
 
 .html-embed-modal h2 {
-  color: #fff;
+  color: var(--white);
   font-size: 1.1rem;
+  font-weight: 600;
   margin-bottom: 8px;
 }
 
 .html-embed-modal p.html-embed-example {
-  color: #555;
+  color: var(--muted);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.75rem;
   margin-bottom: 14px;
@@ -316,10 +320,10 @@ body {
 .html-embed-textarea {
   width: 100%;
   height: 260px;
-  background: #0a0a0a;
-  border: 1px solid #222;
-  border-radius: 8px;
-  color: #ccc;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: rgba(255, 255, 255, 0.8);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.82rem;
   line-height: 1.6;
@@ -329,7 +333,7 @@ body {
 }
 
 .html-embed-textarea:focus {
-  border-color: #444;
+  border-color: var(--white);
 }
 
 .html-embed-modal-actions {

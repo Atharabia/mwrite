@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  --black: #000000;
+  --white: #ffffff;
+  --border: #cdcdcd;
+  --border-soft: rgba(255, 255, 255, 0.14);
+  --muted: rgba(255, 255, 255, 0.5);
+  --muted-2: rgba(255, 255, 255, 0.3);
+  --radius: 8px;
+  --max-width: 1100px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  background-color: var(--black);
+  color: var(--white);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  text-decoration: none;
+  color: var(--white);
+  background: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border: 1px solid var(--white);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
+  line-height: 1;
+}
+
+.btn-outline:hover:not(:disabled) {
+  background-color: var(--white);
+  color: var(--black);
+}
+
+.btn-outline:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.btn-solid {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  text-decoration: none;
+  background: var(--white);
+  color: var(--black);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 7px 16px;
+  border: 1px solid var(--white);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+  line-height: 1;
+}
+
+.btn-solid:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.btn-solid:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}

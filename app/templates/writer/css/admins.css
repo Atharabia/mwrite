@@ -17,9 +17,9 @@
 
 .modal-box {
   position: relative;
-  background: #0d0d0d;
-  border: 1px solid #1a1a1a;
-  border-radius: 10px;
+  background: var(--black);
+  border: 1px solid var(--white);
+  border-radius: var(--radius);
   padding: 1.75rem;
   width: 420px;
   max-width: 95vw;
@@ -28,7 +28,8 @@
 .modal-box h3 {
   margin: 0 0 1.25rem;
   font-size: 1.1rem;
-  color: #fff;
+  font-weight: 600;
+  color: var(--white);
 }
 
 .form-group {
@@ -40,16 +41,17 @@
 
 .form-group label {
   font-size: 0.8125rem;
-  color: #666;
+  color: var(--muted);
   font-weight: 500;
 }
 
 .form-group input[type="email"],
 .form-group input[type="password"] {
-  background: #000;
-  border: 1px solid #1a1a1a;
-  border-radius: 6px;
-  color: #fff;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--white);
+  font-family: inherit;
   font-size: 0.875rem;
   padding: 0.5rem 0.75rem;
   outline: none;
@@ -57,7 +59,7 @@
 }
 
 .form-group input:focus {
-  border-color: #CADCFA;
+  border-color: var(--white);
 }
 
 .modal-actions {
@@ -69,10 +71,11 @@
 
 .btn-secondary {
   background: transparent;
-  border: 1px solid #1a1a1a;
-  border-radius: 6px;
-  color: #666;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--muted);
   cursor: pointer;
+  font-family: inherit;
   font-size: 0.875rem;
   padding: 0.5rem 1rem;
   font-weight: 500;
@@ -80,8 +83,8 @@
 }
 
 .btn-secondary:hover {
-  border-color: #2a2a2a;
-  color: #888;
+  border-color: var(--white);
+  color: var(--white);
 }
 
 .btn-delete {
@@ -89,6 +92,7 @@
   border: none;
   color: #f44336;
   cursor: pointer;
+  font-family: inherit;
   font-size: 0.8125rem;
   padding: 0.25rem 0.5rem;
   font-weight: 500;
@@ -103,9 +107,9 @@
   position: fixed;
   bottom: 1.5rem;
   right: 1.5rem;
-  background: #0d0d0d;
-  border: 1px solid #1a1a1a;
-  border-radius: 8px;
+  background: var(--black);
+  border: 1px solid var(--white);
+  border-radius: var(--radius);
   padding: 0.75rem 1.25rem;
   font-size: 0.875rem;
   z-index: 100;
