@@ -7,6 +7,16 @@ let embedController;
 const quill = new Quill("#editor", {
   theme: "snow",
   placeholder: "Write something…",
+  formats: [
+    "header",
+    "bold", "italic", "underline", "strike",
+    "blockquote",
+    "code-block", "code-block-container",
+    "list", "indent",
+    "link",
+    "image",
+    "html-embed",
+  ],
   modules: {
     syntax: { languages: MwriteCodeBlock.LANGUAGES },
     toolbar: {
