@@ -8,6 +8,7 @@ const quill = new Quill("#editor", {
   theme: "snow",
   placeholder: "Write something…",
   modules: {
+    syntax: { languages: MwriteCodeBlock.LANGUAGES },
     toolbar: {
       container: [
         [{ header: [1, 2, 3, false] }],
@@ -111,7 +112,8 @@ async function save() {
   }
 
   const delta = JSON.stringify(quill.getContents());
-  const html  = MwriteHtmlEmbed.serializeHtml(document.querySelector(".ql-editor").innerHTML);
+  const rawHtml = document.querySelector(".ql-editor").innerHTML;
+  const html  = MwriteHtmlEmbed.serializeHtml(MwriteCodeBlock.serializeHtml(rawHtml));
   const text  = quill.getText().trim();
 
   document.getElementById("saveBtn").disabled = true;
