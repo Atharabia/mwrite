@@ -45,6 +45,7 @@ const quill = new Quill("#editor", {
 });
 
 embedController = MwriteHtmlEmbed.init(quill);
+MwriteToolbarTooltips.init(quill);
 
 async function uploadImage(dataUrl) {
   const res = await fetch("/api/writer/upload-image", {
