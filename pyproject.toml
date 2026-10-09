@@ -76,3 +76,7 @@ disable_error_code = ["arg-type"]
 [[tool.mypy.overrides]]
 module = "app.controller.writer"
 disable_error_code = ["arg-type"]
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
